@@ -1,3 +1,10 @@
+//
+//  MainTabView.swift
+//  Savory
+//
+//  Created by Thiago Castro on 08/06/26.
+//
+
 import SwiftUI
 
 struct MainTabView: View {
