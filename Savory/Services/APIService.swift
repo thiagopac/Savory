@@ -28,4 +28,18 @@ enum APIService {
         let (data, _) = try await URLSession.shared.data(from: url)
         return try JSONDecoder().decode([MenuItem].self, from: data)
     }
+
+    static func searchRestaurants(name: String) async throws -> [Restaurant] {
+        let encoded = name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? name
+        guard let url = URL(string: "\(baseURL)/Restaurant?name=\(encoded)") else { throw URLError(.badURL) }
+        let (data, _) = try await URLSession.shared.data(from: url)
+        return try JSONDecoder().decode([Restaurant].self, from: data)
+    }
+
+    static func searchItems(name: String) async throws -> [MenuItem] {
+        let encoded = name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? name
+        guard let url = URL(string: "\(baseURL)/Restaurant/items?ItemName=\(encoded)") else { throw URLError(.badURL) }
+        let (data, _) = try await URLSession.shared.data(from: url)
+        return try JSONDecoder().decode([MenuItem].self, from: data)
+    }
 }
