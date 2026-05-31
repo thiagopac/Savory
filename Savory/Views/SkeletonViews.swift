@@ -23,6 +23,38 @@ struct SkeletonBlock: View {
     }
 }
 
+struct SearchSkeleton: View {
+    var body: some View {
+        ScrollView(showsIndicators: false) {
+            VStack(alignment: .leading, spacing: 0) {
+                SkeletonBlock(cornerRadius: 6).frame(width: 130, height: 18)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 20)
+                    .padding(.bottom, 12)
+
+                ForEach(0..<6, id: \.self) { _ in
+                    HStack(spacing: 14) {
+                        SkeletonBlock(cornerRadius: 12).frame(width: 72, height: 72)
+                        VStack(alignment: .leading, spacing: 7) {
+                            SkeletonBlock(cornerRadius: 4).frame(width: 140, height: 14)
+                            SkeletonBlock(cornerRadius: 4).frame(width: 100, height: 11)
+                            SkeletonBlock(cornerRadius: 4).frame(width: 80, height: 11)
+                        }
+                        Spacer()
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 13)
+
+                    if true {
+                        Divider().padding(.leading, 102)
+                    }
+                }
+            }
+        }
+        .background(Color(.systemBackground))
+    }
+}
+
 struct HomeSkeleton: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
