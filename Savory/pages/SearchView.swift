@@ -72,7 +72,12 @@ struct SearchView: View {
                     resultSectionHeader("Restaurants", count: viewModel.restaurants.count)
 
                     ForEach(viewModel.restaurants) { restaurant in
-                        RestaurantRowView(restaurant: restaurant)
+                        NavigationLink {
+                            RestaurantDetailView(restaurant: restaurant)
+                        } label: {
+                            RestaurantRowView(restaurant: restaurant)
+                        }
+                        .buttonStyle(.plain)
                         if restaurant.id != viewModel.restaurants.last?.id {
                             Divider().padding(.leading, 102)
                         }

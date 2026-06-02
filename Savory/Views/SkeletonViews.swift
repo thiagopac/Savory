@@ -55,6 +55,28 @@ struct SearchSkeleton: View {
     }
 }
 
+struct MenuSkeleton: View {
+    var body: some View {
+        VStack(spacing: 0) {
+            ForEach(0..<5, id: \.self) { _ in
+                HStack(spacing: 12) {
+                    SkeletonBlock(cornerRadius: 12).frame(width: 80, height: 80)
+                    VStack(alignment: .leading, spacing: 7) {
+                        SkeletonBlock(cornerRadius: 4).frame(width: 140, height: 14)
+                        SkeletonBlock(cornerRadius: 4).frame(width: 200, height: 11)
+                        SkeletonBlock(cornerRadius: 4).frame(width: 160, height: 11)
+                        SkeletonBlock(cornerRadius: 4).frame(width: 60, height: 13)
+                    }
+                    Spacer()
+                    SkeletonBlock(cornerRadius: 10).frame(width: 38, height: 38)
+                }
+                .padding(.vertical, 14)
+                Divider().padding(.leading, 92)
+            }
+        }
+    }
+}
+
 struct HomeSkeleton: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {

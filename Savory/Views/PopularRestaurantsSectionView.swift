@@ -27,7 +27,12 @@ struct PopularRestaurantsSectionView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 14) {
                     ForEach(restaurants) { restaurant in
-                        RestaurantCardView(restaurant: restaurant)
+                        NavigationLink {
+                            RestaurantDetailView(restaurant: restaurant)
+                        } label: {
+                            RestaurantCardView(restaurant: restaurant)
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
                 .padding(.horizontal, 16)

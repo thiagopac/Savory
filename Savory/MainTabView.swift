@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MainTabView: View {
+    @State private var cartManager = CartManager()
+
     var body: some View {
         TabView {
             NavigationStack {
@@ -36,5 +38,6 @@ struct MainTabView: View {
             .tabItem { Label("Profile", systemImage: "person.fill") }
         }
         .tint(.savoryOrange)
+        .environment(cartManager)
     }
 }
