@@ -24,6 +24,11 @@ struct Restaurant: Codable, Identifiable, Hashable {
     var deliveryTime: String { "30-40 min" }
     var priceRange: String { "₹₹" }
 
+    var initials: String {
+        let words = restaurantName.split(separator: " ").prefix(2)
+        return words.compactMap { $0.first.map { String($0) } }.joined().uppercased()
+    }
+
     var cityName: String {
         address.components(separatedBy: ",").first?.trimmingCharacters(in: .whitespaces) ?? address
     }

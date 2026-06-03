@@ -92,7 +92,7 @@ struct CartView: View {
                 .foregroundStyle(.green)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text("You're saving ₹\(Int(cart.discount))!")
+                Text("You're saving \(priceUSD(cart.discount))!")
                     .font(.system(size: 14, weight: .bold))
                     .foregroundStyle(.green)
                 Text("Flat 20% OFF applied")
@@ -114,8 +114,8 @@ struct CartView: View {
 
     private var priceSummary: some View {
         VStack(spacing: 14) {
-            summaryRow("Subtotal", value: "₹\(Int(cart.subtotal))")
-            summaryRow("Discount (20%)", value: "−₹\(Int(cart.discount))", valueColor: .green)
+            summaryRow("Subtotal", value: priceUSD(cart.subtotal))
+            summaryRow("Discount (20%)", value: "−\(priceUSD(cart.discount))", valueColor: .green)
 
             HStack {
                 HStack(spacing: 4) {
@@ -127,7 +127,7 @@ struct CartView: View {
                         .foregroundStyle(.secondary)
                 }
                 Spacer()
-                Text("₹\(Int(cart.deliveryFee))")
+                Text(priceUSD(cart.deliveryFee))
                     .font(.system(size: 15))
                     .foregroundStyle(.secondary)
             }
@@ -138,7 +138,7 @@ struct CartView: View {
                 Text("Total")
                     .font(.system(size: 17, weight: .bold))
                 Spacer()
-                Text("₹\(Int(cart.total))")
+                Text(priceUSD(cart.total))
                     .font(.system(size: 17, weight: .bold))
             }
         }
@@ -208,7 +208,7 @@ struct CartItemRow: View {
                     .font(.system(size: 15, weight: .semibold))
                     .foregroundStyle(.primary)
                     .lineLimit(1)
-                Text("₹\(Int(cartItem.item.itemPrice))")
+                Text(priceUSD(cartItem.item.itemPrice))
                     .font(.system(size: 14, weight: .bold))
                     .foregroundStyle(.savoryOrange)
             }

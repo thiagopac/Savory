@@ -19,6 +19,10 @@ extension ShapeStyle where Self == Color {
     static var savoryOrangeSoft: Color { Color(red: 1.0, green: 0.945, blue: 0.878) }
 }
 
+func priceUSD(_ amount: Double) -> String {
+    "$\(Int((amount / 10).rounded()))"
+}
+
 extension Font {
     static func savoryTitle() -> Font { .system(size: 26, weight: .bold) }
     static func savorySectionTitle() -> Font { .system(size: 18, weight: .bold) }

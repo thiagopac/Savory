@@ -133,7 +133,7 @@ struct RestaurantDetailView: View {
                             )
                         )
                         .frame(width: 72, height: 72)
-                    Text(String(restaurant.restaurantName.prefix(2)).uppercased())
+                    Text(restaurant.initials)
                         .font(.system(size: 22, weight: .bold))
                         .foregroundStyle(.white)
                 }
@@ -265,7 +265,7 @@ struct RestaurantDetailView: View {
             .padding(.vertical, 8)
             .background(isSelected ? Color.savoryOrangeSoft : Color(.systemBackground))
             .clipShape(Capsule())
-            .overlay(Capsule().stroke(isSelected ? Color.savoryOrange : Color(.systemGray4), lineWidth: 1))
+            .overlay(Capsule().stroke(isSelected ? Color.savoryOrangeSoft : Color(.systemGray4), lineWidth: 1.5))
         }
         .buttonStyle(.plain)
     }
@@ -307,7 +307,7 @@ struct RestaurantDetailView: View {
                 }
                 Button {} label: {
                     Image(systemName: "square.and.arrow.up")
-                        .font(.system(size: 14, weight: .semibold))
+                        .font(.system(size: 18, weight: .semibold))
                         .foregroundStyle(.white)
                         .frame(width: 38, height: 38)
                         .background(Color.black.opacity(0.5))
@@ -339,7 +339,6 @@ struct RestaurantDetailView: View {
                     .frame(height: 54)
                     .background(Color.savoryOrange)
                     .clipShape(RoundedRectangle(cornerRadius: 16))
-                    .shadow(color: .savoryOrange.opacity(0.4), radius: 12, x: 0, y: 4)
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 28)
@@ -378,7 +377,7 @@ struct MenuItemRow: View {
                     .foregroundStyle(.secondary)
                     .lineLimit(2)
 
-                Text("₹\(Int(item.itemPrice))")
+                Text(priceUSD(item.itemPrice))
                     .font(.system(size: 14, weight: .bold))
                     .foregroundStyle(.savoryOrange)
                     .padding(.top, 2)
