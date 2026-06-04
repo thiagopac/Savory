@@ -10,11 +10,16 @@ import SwiftUI
 struct CartView: View {
     @Environment(CartManager.self) private var cart
     @Environment(\.dismiss) private var dismiss
+    @State private var isPlacingOrder = false
+    @State private var orderSuccess = false
+    @State private var orderError: String? = nil
 
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                if cart.cartItems.isEmpty {
+                if orderSuccess {
+                    orderSuccessView
+                } else if cart.cartItems.isEmpty {
                     emptyCart
                 } else {
                     ZStack(alignment: .bottom) {
@@ -162,13 +167,30 @@ struct CartView: View {
 
     private var checkoutButton: some View {
         VStack(spacing: 0) {
+            if let error = orderError {
+                Text(error)
+                    .font(.system(size: 12))
+                    .foregroundStyle(.red)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 8)
+            }
             Divider()
-            Button {} label: {
-                HStack(spacing: 8) {
-                    Text("Proceed to Checkout")
-                        .font(.system(size: 17, weight: .semibold))
-                    Image(systemName: "arrow.right")
-                        .font(.system(size: 15, weight: .semibold))
+            Button {
+                Task { await placeOrder() }
+            } label: {
+                Group {
+                    if isPlacingOrder {
+                        ProgressView()
+                            .tint(.white)
+                    } else {
+                        HStack(spacing: 8) {
+                            Text("Proceed to Checkout")
+                                .font(.system(size: 17, weight: .semibold))
+                            Image(systemName: "arrow.right")
+                                .font(.system(size: 15, weight: .semibold))
+                        }
+                    }
                 }
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
@@ -176,11 +198,57 @@ struct CartView: View {
                 .background(Color.savoryOrange)
                 .clipShape(RoundedRectangle(cornerRadius: 16))
             }
+            .disabled(isPlacingOrder)
             .padding(.horizontal, 20)
             .padding(.top, 16)
             .padding(.bottom, 32)
             .background(Color(.systemGroupedBackground))
         }
+    }
+
+    private var orderSuccessView: some View {
+        VStack(spacing: 20) {
+            Spacer()
+            Image(systemName: "checkmark.circle.fill")
+                .font(.system(size: 72))
+                .foregroundStyle(.green)
+            Text("Order Placed!")
+                .font(.system(size: 24, weight: .bold))
+            Text("Your order has been placed successfully.\nCheck the Orders tab to track it.")
+                .font(.system(size: 15))
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 32)
+            Button {
+                dismiss()
+            } label: {
+                Text("Done")
+                    .font(.system(size: 17, weight: .semibold))
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 54)
+                    .background(Color.savoryOrange)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+            }
+            .padding(.horizontal, 32)
+            .padding(.top, 8)
+            Spacer()
+        }
+    }
+
+    private func placeOrder() async {
+        guard let restaurantID = cart.cartItems.first?.item.restaurantID else { return }
+        isPlacingOrder = true
+        orderError = nil
+        let items = cart.cartItems.map { (itemName: $0.item.itemName, quantity: $0.quantity) }
+        do {
+            try await APIService.placeOrder(restaurantID: restaurantID, items: items)
+            cart.cartItems.removeAll()
+            orderSuccess = true
+        } catch {
+            orderError = "Couldn't place order. Please try again."
+        }
+        isPlacingOrder = false
     }
 }
 
