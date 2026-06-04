@@ -10,8 +10,8 @@ import SwiftUI
 struct RestaurantDetailView: View {
     let restaurant: Restaurant
     @State private var viewModel = RestaurantDetailViewModel()
-    @State private var isFavorite = false
     @State private var coverImageUrl: String?
+    @Environment(FavoritesManager.self) private var favorites
     @State private var showCart = false
     @Environment(\.dismiss) private var dismiss
     @Environment(CartManager.self) private var cart
@@ -265,7 +265,7 @@ struct RestaurantDetailView: View {
             .padding(.vertical, 8)
             .background(isSelected ? Color.savoryOrangeSoft : Color(.systemBackground))
             .clipShape(Capsule())
-            .overlay(Capsule().stroke(isSelected ? Color.savoryOrangeSoft : Color(.systemGray4), lineWidth: 1.5))
+            .overlay(Capsule().stroke(isSelected ? Color.clear : Color(.systemGray4), lineWidth: 1))
         }
         .buttonStyle(.plain)
     }
@@ -297,12 +297,12 @@ struct RestaurantDetailView: View {
             }
             Spacer()
             HStack(spacing: 10) {
-                Button { isFavorite.toggle() } label: {
+                Button { favorites.toggle(restaurant) } label: {
                     Image(systemName: "heart.fill")
                         .font(.system(size: 16))
-                        .foregroundStyle(isFavorite ? .red : .white)
+                        .foregroundStyle(favorites.isFavorite(restaurant) ? .red : .white)
                         .frame(width: 38, height: 38)
-                        .background(isFavorite ? Color.white : Color.black.opacity(0.5))
+                        .background(favorites.isFavorite(restaurant) ? Color.white : Color.black.opacity(0.5))
                         .clipShape(Circle())
                 }
                 Button {} label: {

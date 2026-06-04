@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MainTabView: View {
     @State private var cartManager = CartManager()
+    @State private var favoritesManager = FavoritesManager()
 
     var body: some View {
         TabView {
@@ -39,5 +40,6 @@ struct MainTabView: View {
         }
         .tint(.savoryOrange)
         .environment(cartManager)
+        .environment(favoritesManager)
     }
 }

@@ -9,9 +9,8 @@ import SwiftUI
 
 struct RestaurantCardView: View {
     let restaurant: Restaurant
-    @State private var isFavorite = false
     @State private var coverImageUrl: String?
-    @State private var imageLoaded = false
+    @Environment(FavoritesManager.self) private var favorites
 
     private let cardWidth: CGFloat = 180
 
@@ -46,11 +45,11 @@ struct RestaurantCardView: View {
                 }
 
                 Button {
-                    isFavorite.toggle()
+                    favorites.toggle(restaurant)
                 } label: {
-                    Image(systemName: isFavorite ? "heart.fill" : "heart")
+                    Image(systemName: favorites.isFavorite(restaurant) ? "heart.fill" : "heart")
                         .font(.system(size: 13))
-                        .foregroundStyle(isFavorite ? .red : .white)
+                        .foregroundStyle(favorites.isFavorite(restaurant) ? .red : .white)
                         .padding(7)
                         .background(.black.opacity(0.45))
                         .clipShape(Circle())
