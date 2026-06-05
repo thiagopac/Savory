@@ -263,9 +263,12 @@ struct RestaurantDetailView: View {
             .foregroundStyle(isSelected ? .savoryOrange : .primary)
             .padding(.horizontal, 14)
             .padding(.vertical, 8)
-            .background(isSelected ? Color.savoryOrangeSoft : Color(.systemBackground))
-            .clipShape(Capsule())
-            .overlay(Capsule().stroke(isSelected ? Color.clear : Color(.systemGray4), lineWidth: 1))
+            .background(
+                ZStack {
+                    Capsule().fill(isSelected ? Color.savoryOrangeSoft : Color(.systemBackground))
+                    Capsule().strokeBorder(isSelected ? Color.clear : Color(.systemGray4), lineWidth: 1)
+                }
+            )
         }
         .buttonStyle(.plain)
     }

@@ -40,7 +40,7 @@ struct DishRowView: View {
                     .foregroundStyle(.secondary)
                     .lineLimit(2)
 
-                Text("₹\(Int(dish.itemPrice))")
+                Text(priceUSD(dish.itemPrice))
                     .font(.system(size: 14, weight: .bold))
                     .foregroundStyle(.savoryOrange)
                     .padding(.top, 1)

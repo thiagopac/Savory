@@ -22,7 +22,7 @@ struct Restaurant: Codable, Identifiable, Hashable {
     }
 
     var deliveryTime: String { "30-40 min" }
-    var priceRange: String { "₹₹" }
+    var priceRange: String { "$$" }
 
     var initials: String {
         let words = restaurantName.split(separator: " ").prefix(2)
