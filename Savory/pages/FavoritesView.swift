@@ -87,17 +87,16 @@ struct FavoriteCard: View {
     @Environment(FavoritesManager.self) private var favorites
     @State private var coverImageUrl: String?
 
+    private let cardHeight: CGFloat = 108
+    private let imageWidth: CGFloat = 108
+
     var body: some View {
         HStack(spacing: 0) {
             imageArea
-                .frame(width: 110, height: 110)
+                .frame(width: imageWidth, height: cardHeight)
                 .clipped()
-                .clipShape(UnevenRoundedRectangle(
-                    topLeadingRadius: 16, bottomLeadingRadius: 16,
-                    bottomTrailingRadius: 0, topTrailingRadius: 0
-                ))
 
-            VStack(alignment: .leading, spacing: 0) {
+            HStack(alignment: .center, spacing: 0) {
                 VStack(alignment: .leading, spacing: 5) {
                     Text(restaurant.restaurantName)
                         .font(.system(size: 15, weight: .bold))
@@ -109,7 +108,7 @@ struct FavoriteCard: View {
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
 
-                    HStack(spacing: 6) {
+                    HStack(spacing: 5) {
                         HStack(spacing: 3) {
                             Image(systemName: "star.fill")
                                 .font(.system(size: 10))
@@ -117,16 +116,10 @@ struct FavoriteCard: View {
                             Text(String(format: "%.1f", restaurant.rating))
                                 .font(.system(size: 12, weight: .semibold))
                         }
-                        Text("·")
-                            .foregroundStyle(Color(.tertiaryLabel))
-                        HStack(spacing: 3) {
-                            Image(systemName: "clock")
-                                .font(.system(size: 10))
-                                .foregroundStyle(.secondary)
-                            Text(restaurant.deliveryTime)
-                                .font(.system(size: 12))
-                                .foregroundStyle(.secondary)
-                        }
+                        Text("·").foregroundStyle(Color(.tertiaryLabel))
+                        Text(restaurant.deliveryTime)
+                            .font(.system(size: 12))
+                            .foregroundStyle(.secondary)
                     }
 
                     HStack(spacing: 4) {
@@ -138,39 +131,26 @@ struct FavoriteCard: View {
                             .foregroundStyle(.secondary)
                             .lineLimit(1)
                     }
-                    .padding(.top, 2)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading, 14)
 
-                Spacer(minLength: 0)
+                Spacer(minLength: 8)
 
-                HStack {
-                    Text(restaurant.priceRange)
-                        .font(.system(size: 12, weight: .medium))
-                        .foregroundStyle(.secondary)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
-                        .background(Color(.systemGroupedBackground))
-                        .clipShape(Capsule())
-
-                    Spacer()
-
-                    Button {
-                        favorites.toggle(restaurant)
-                    } label: {
-                        Image(systemName: "heart.fill")
-                            .font(.system(size: 16))
-                            .foregroundStyle(.red)
-                            .frame(width: 36, height: 36)
-                            .background(Color.red.opacity(0.1))
-                            .clipShape(Circle())
-                    }
+                Button {
+                    favorites.toggle(restaurant)
+                } label: {
+                    Image(systemName: "heart.fill")
+                        .font(.system(size: 16))
+                        .foregroundStyle(.red)
+                        .frame(width: 36, height: 36)
+                        .background(Color.red.opacity(0.1))
+                        .clipShape(Circle())
                 }
+                .padding(.trailing, 14)
             }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 14)
+            .frame(height: cardHeight)
         }
-        .frame(height: 110)
+        .frame(height: cardHeight)
         .background(Color(.systemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 2)
