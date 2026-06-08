@@ -71,20 +71,3 @@ Savory/
   pages/        — Full screens (HomeView, SearchView, RestaurantDetailView, CartView, …)
 ```
 
-## API
-
-Powered by the open [Fake Restaurant API](https://fakerestaurantapi.runasp.net/Docs.html) — a public REST API that provides restaurants, menus, and order management in JSON format.
-
-```
-GET  /api/Restaurant                          — all restaurants
-GET  /api/Restaurant?category={type}          — filter by cuisine
-GET  /api/Restaurant?name={q}                 — search by name
-GET  /api/Restaurant/{id}/menu                — restaurant menu
-GET  /api/Restaurant/items?ItemName={q}       — search dishes
-GET  /api/Order?apikey={key}                  — order history
-GET  /api/Order/{masterID}?apikey={key}       — order items
-POST /api/Order/{restaurantID}/makeorder      — place an order
-DELETE /api/Order/master/{masterID}           — delete an order
-```
-
-`APIService` is an `enum` with static `async throws` methods, one per endpoint. No third-party networking libraries.
